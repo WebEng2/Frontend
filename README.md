@@ -17,7 +17,10 @@ kontrolliert und dem Team beim Sprint-Inkrement beratend und unterstützend zur 
 Kommunikation untereinander aufrecht erhält, das Ziel ständig kontrolliert und den Product-Owner informiert.
 ▪ Die fertige Lösung soll auf einem GitHub-Repository lauffähig veröffentlicht und auf CD/DVD dem Sekretariat
 übergeben werden. Der Scrum-Master ist für die vollständige Auslieferung der PWA zum Ende des Vorlesungsquartals oder nach individueller zeitlicher Absprache mit dem Dozenten verantwortlich.
-197
-*1 Nominatim: https://nominatim.org/release-docs/develop/api/Overview/ *2 Wikipedia: https://www.mediawiki.org/wiki/API:Tutorial
-*3 OpenStreetMap: https://wiki.openstreetmap.org/wiki/DE:Hauptseite *4 Leaflet: https://leafletjs.com/
+
+
+*1 Nominatim: https://nominatim.org/release-docs/develop/api/Overview/ 
+*2 Wikipedia: https://www.mediawiki.org/wiki/API:Tutorial
+*3 OpenStreetMap: https://wiki.openstreetmap.org/wiki/DE:Hauptseite 
+*4 Leaflet: https://leafletjs.com/
 *5 Routing: https://www.liedman.net/leaflet-routing-machine/

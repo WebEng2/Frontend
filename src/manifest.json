@@ -1,12 +1,12 @@
 {
-  "name": "OpenReadMap",
-  "short_name": "OpenReadMap",
-  "description": "OpenReadMap",
+  "name": "Navigation_PWA",
+  "short_name": "Navigation_PWA",
+  "description": "Navigation_PWA",
   "lang": "en-US",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#007789",
-  "theme_color": "#007789",
+  "background_color": "#057471",
+  "theme_color": "#057471",
   "icons": [
     {
       "src": "/icons/128x128.png",

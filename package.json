@@ -1,8 +1,8 @@
 {
-  "name": "openreadmap",
+  "name": "navigation_pwa",
   "private": true,
   "version": "1.0.0",
-  "description": "OpenReadMap",
+  "description": "Navigation_PWA",
   "repository": "",
   "license": "UNLICENSED",
   "scripts": {
@@ -34,8 +34,8 @@
     "cpy-cli": "^5.0.0",
     "cross-env": "^7.0.3",
     "less": "^4.2.0",
-    "postcss-preset-env": "^10.0.9",
-    "vite": "^5.4.10",
+    "postcss-preset-env": "^10.1.0",
+    "vite": "^5.4.11",
     "workbox-cli": "^7.3.0"
   }
 }

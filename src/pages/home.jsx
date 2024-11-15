@@ -22,18 +22,20 @@ const HomePage = () => (
       <NavLeft>
         <Link iconIos="f7:menu" iconMd="material:menu" panelOpen="left" />
       </NavLeft>
-      <NavTitle sliding>OpenReadMap</NavTitle>
+      <NavTitle sliding>Navigation_PWA</NavTitle>
       <NavRight>
         <Link iconIos="f7:menu" iconMd="material:menu" panelOpen="right" />
       </NavRight>
-      <NavTitleLarge>OpenReadMap</NavTitleLarge>
+      <NavTitleLarge>Navigation_PWA</NavTitleLarge>
     </Navbar>
-
+    {/* Toolbar */}
+    <Toolbar bottom>
+      <Link>Left Link</Link>
+      <Link>Right Link</Link>
+    </Toolbar>
     {/* Page content */}
     <Block>
-      <p>This is an example of tabs-layout application. The main point of such tabbed layout is that each tab contains independent view with its own routing and navigation.</p>
-
-      <p>Each tab/view may have different layout, different navbar type (dynamic, fixed or static) or without navbar like this tab.</p>
+      <p>Here is your blank Framework7 app. Let's see what we have here.</p>
     </Block>
     <BlockTitle>Navigation</BlockTitle>
     <List strong inset dividersIos>

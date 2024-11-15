@@ -1,4 +1,4 @@
-# Web-Engineering 2 OpenReadMap
+# Web-Engineering 2 Navigation_PWA
 
 ## Epic:
 „Entwickeln Sie eine Web-Applikation die innerhalb eines Location-Based-Service eine Karte darstellt.
@@ -18,6 +18,7 @@ Anschließend soll die Fahrroute von der gegenwärtigen Position zum ausgewählt
 4. Leaflet: https://leafletjs.com/
 5. Routing: https://www.liedman.net/leaflet-routing-machine/
 
+# Navigation_PWA
 
 ## Framework7 CLI Options
 
@@ -29,15 +30,15 @@ Framework7 app created with following options:
   "type": [
     "pwa"
   ],
-  "name": "OpenReadMap",
+  "name": "Navigation_PWA",
   "framework": "react",
-  "template": "tabs",
+  "template": "single-view",
   "bundler": "vite",
   "cssPreProcessor": "less",
   "theming": {
     "customColor": true,
-    "color": "#007789",
-    "darkMode": true,
+    "color": "#057471",
+    "darkMode": false,
     "iconFonts": true
   },
   "customBuild": false

@@ -2,9 +2,7 @@
 import HomePage from '../pages/home.jsx';
 import AboutPage from '../pages/about.jsx';
 import FormPage from '../pages/form.jsx';
-import CatalogPage from '../pages/catalog.jsx';
-import ProductPage from '../pages/product.jsx';
-import SettingsPage from '../pages/settings.jsx';
+
 
 import DynamicRoutePage from '../pages/dynamic-route.jsx';
 import RequestAndLoad from '../pages/request-and-load.jsx';
@@ -23,18 +21,7 @@ var routes = [
     path: '/form/',
     component: FormPage,
   },
-  {
-    path: '/catalog/',
-    component: CatalogPage,
-  },
-  {
-    path: '/product/:id/',
-    component: ProductPage,
-  },
-  {
-    path: '/settings/',
-    component: SettingsPage,
-  },
+
 
   {
     path: '/dynamic-route/blog/:blogId/post/:postId/',

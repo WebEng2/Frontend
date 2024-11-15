@@ -3,15 +3,15 @@
   "type": [
     "pwa"
   ],
-  "name": "OpenReadMap",
+  "name": "Navigation_PWA",
   "framework": "react",
-  "template": "tabs",
+  "template": "single-view",
   "bundler": "vite",
   "cssPreProcessor": "less",
   "theming": {
     "customColor": true,
-    "color": "#007789",
-    "darkMode": true,
+    "color": "#057471",
+    "darkMode": false,
     "iconFonts": true
   },
   "customBuild": false

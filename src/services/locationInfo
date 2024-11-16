@@ -13,3 +13,38 @@ async function reverseGeocoding(lat, lon) {
         console.error("Reverse Geocoding Error:", error.message);
     }
 }
+
+
+// Function to perform a text search on the Wikipedia API
+async function wikiSearchApi(searchQuery) {
+    const apiUrl = `https://de.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=${searchQuery}`;
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`Wiki Search API - Response status: ${response.status}`);
+        }
+        const json = await response.json();
+        console.log("Wiki Search API Result:", json);
+        return json;
+    } catch (error) {
+        console.error("Wiki Search API Error:", error.message);
+    }
+}
+
+
+// Function to perform a geographic search on the Wikipedia API
+async function wikiGeoApi(lat, lon) {
+    const apiUrl = `https://en.wikipedia.org/w/api.php?action=query&generator=geosearch&prop=coordinates|pageimages&ggscoord=${lat}|${lon}&format=json&origin=*`;
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`Wiki Geo API - Response status: ${response.status}`);
+        }
+        const json = await response.json();
+        console.log("Wiki Geo API Result:", json);
+        return json;
+    } catch (error) {
+        console.error("Wiki Geo API Error:", error.message);
+    }
+}
+

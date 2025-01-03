@@ -34,9 +34,8 @@ node_modules/
 .DS_Store
 Thumbs.db
 
-
-
-
+# fonts
+src/fonts/
 
 # Production build
 www/

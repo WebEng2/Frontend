@@ -27,6 +27,12 @@ const HomePage = () => {
   // Handle input change for longitude
   const handleLonChange = (e) => setLon(e.target.value);
 
+  // Callback to update lat and lon when the marker is moved
+    const handleMarkerMove = (newLat, newLon) => {
+    setLat(newLat);
+    setLon(newLon);
+  };
+
   return(
     <Page name="home">
       {/* Top Navbar */}
@@ -53,14 +59,14 @@ const HomePage = () => {
             label="Latitude"
             type="number"
             value={lat}
-            onInput={handleLatChange}
+            onChange={handleLatChange}
             placeholder="Enter Latitude"
           />
           <ListInput
             label="Longitude"
             type="number"
             value={lon}
-            onInput={handleLonChange}
+            onChange={handleLonChange}
             placeholder="Enter Longitude"
           />
 
@@ -72,7 +78,7 @@ const HomePage = () => {
       {/* Karte */}
       <BlockTitle>Karte</BlockTitle>
       <Block>
-        <Map />
+        <Map lat={lat} lon={lon}  onMarkerMove={handleMarkerMove}/>
       </Block>
     </Page>
   );

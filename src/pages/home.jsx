@@ -11,12 +11,11 @@ import {
   Block,
   BlockTitle,
   List,
-  ListItem,
   Button,
   ListInput
 } from 'framework7-react';
-
 import getLocationInfo from '../services/locationInfo';
+import Map from '../services/map';
 
 const HomePage = () => {
   // State for latitude and longitude
@@ -47,7 +46,6 @@ const HomePage = () => {
         <Link>Right Link</Link>
       </Toolbar>
       {/* Page content */}
-      <Block>
 
       <BlockTitle>Enter Coordinates</BlockTitle>
         <List strong inset>

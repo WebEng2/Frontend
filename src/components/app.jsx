@@ -41,8 +41,6 @@ const MyApp = () => {
         primary: '#057471',
       },
 
-
-
       // App store
       store: store,
       // App routes
@@ -71,23 +69,11 @@ const MyApp = () => {
         <Panel left cover dark>
           <View>
             <Page>
-              <Navbar title="Left Panel"/>
-              <Block>Left panel content goes here</Block>
+              <Navbar title="Navigation Panel"/>
+              <Block>panel content goes here</Block>
             </Page>
           </View>
         </Panel>
-
-
-        {/* Right panel with reveal effect*/}
-        <Panel right reveal dark>
-          <View>
-            <Page>
-              <Navbar title="Right Panel"/>
-              <Block>Right panel content goes here</Block>
-            </Page>
-          </View>
-        </Panel>
-
 
         {/* Your main view, should have "view-main" class */}
         <View main className="safe-areas" url="/" />
@@ -107,36 +93,6 @@ const MyApp = () => {
           </Page>
         </View>
       </Popup>
-
-      <LoginScreen id="my-login-screen">
-        <View>
-          <Page loginScreen>
-            <LoginScreenTitle>Login</LoginScreenTitle>
-            <List form>
-              <ListInput
-                type="text"
-                name="username"
-                placeholder="Your username"
-                value={username}
-                onInput={(e) => setUsername(e.target.value)}
-              ></ListInput>
-              <ListInput
-                type="password"
-                name="password"
-                placeholder="Your password"
-                value={password}
-                onInput={(e) => setPassword(e.target.value)}
-              ></ListInput>
-            </List>
-            <List>
-              <ListButton title="Sign In" onClick={() => alertLoginData()} />
-              <BlockFooter>
-                Some text about login information.<br />Click "Sign In" to close Login Screen
-              </BlockFooter>
-            </List>
-          </Page>
-        </View>
-      </LoginScreen>
     </App>
   )
 }

@@ -14,8 +14,8 @@ import {
   Button,
   ListInput
 } from 'framework7-react';
-import getLocationInfo from '../services/locationInfo';
-import Map from '../services/map';
+import getLocationInfo from '../services/locationInfo.js';
+import Map from '../services/map.jsx';
 
 const HomePage = () => {
   // State for latitude and longitude

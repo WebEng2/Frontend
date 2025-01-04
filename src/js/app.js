@@ -25,4 +25,4 @@ Framework7.use(Framework7React)
 const root = createRoot(document.getElementById('app'));
 root.render(React.createElement(App));
 
-import '../services/map.js';
+import '../services/map.jsx';

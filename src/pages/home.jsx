@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Page,
   Navbar,
@@ -14,31 +14,9 @@ import {
   ListItem,
   Button
 } from 'framework7-react';
-import L from 'leaflet'; // Leaflet für die Karte importieren
-import 'leaflet/dist/leaflet.css'; // Leaflet CSS importieren
+import Map from "../services/map.jsx"
 
 const HomePage = () => {
-  const [showMap, setShowMap] = useState(false); // Zustand für die Karte
-
-  const initializeMap = () => {
-    const map = L.map('map').setView([51.1657, 10.4515], 6); // Deutschland
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 19,
-    }).addTo(map);
-
-    L.marker([51.1657, 10.4515])
-      .addTo(map)
-      .bindPopup('Hier ist Deutschland!')
-      .openPopup();
-  };
-
-  const handleShowMap = () => {
-    setShowMap(true); // Zeige die Karte an
-    setTimeout(() => {
-      initializeMap(); // Initialisiere die Karte nach dem Rendern
-    }, 0);
-  };
 
   return (
     <Page name="home">
@@ -98,22 +76,8 @@ const HomePage = () => {
       {/* Karte */}
       <BlockTitle>Karte</BlockTitle>
       <Block>
-        {!showMap && (
-          <Button fill onClick={handleShowMap}>
-            Karte anzeigen
-          </Button>
-        )}
+        <Map />
       </Block>
-      {showMap && (
-        <div
-          id="map"
-          style={{
-            width: '100%',
-            height: '50vh', // Höhe der Karte, anpassbar
-            marginTop: '20px',
-          }}
-        ></div>
-      )}
     </Page>
   );
 };

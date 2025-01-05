@@ -13,8 +13,6 @@ import {
   Button,
   ListInput,
   Popup,
-  View,
-  ListButton,
 } from 'framework7-react';
 import Map from '../services/map.jsx';
 import LocationInfoComponent from '../components/overview.jsx';
@@ -53,26 +51,33 @@ const HomePage = () => {
       {/* Page content */}
 
       <BlockTitle>Enter Coordinates</BlockTitle>
-      <List strong inset>
-        <ListInput
-          label="Latitude"
-          type="number"
-          value={lat}
-          onChange={handleLatChange}
-          placeholder="Enter Latitude"
-        />
-        <ListInput
-          label="Longitude"
-          type="number"
-          value={lon}
-          onChange={handleLonChange}
-          placeholder="Enter Longitude"
-        />
+      <Block>
+        <List strong inset>
+          <ListInput
+            label="Latitude"
+            type="number"
+            value={lat}
+            onChange={handleLatChange}
+            placeholder="Enter Latitude"
+          />
+          <ListInput
+            label="Longitude"
+            type="number"
+            value={lon}
+            onChange={handleLonChange}
+            placeholder="Enter Longitude"
+          />
+        </List>
 
-        <Button fill onClick={() => setIsPopupOpen(true)}>
-          Get Location Info
-        </Button>
-      </List>
+        <Block className="grid grid-cols-2 grid-gap">
+          <Button fill onClick={() => setIsPopupOpen(true)}>
+            Get Location Info
+          </Button>
+          <Button fill>
+            start Route
+          </Button>
+        </Block>
+      </Block>
 
       {/* Map */}
       <BlockTitle>Karte</BlockTitle>

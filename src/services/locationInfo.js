@@ -6,12 +6,12 @@
  * @param {number} lat Latitude of the location.
  * @param {number} lon Longitude of the location.
  */
-async function getLocationInfo(lat, lon) {
+export async function getLocationInfo(lat, lon) {
+    console.log("Getting location information for coordinates:", lat, lon);
     const nominatimResponse = await reverseGeocoding(lat, lon);
     await callWikiGeoApi(lat, lon, 1000); // Retrieves geotagged Wikipedia articles near the coordinates
     await callWikiSearchApi(nominatimResponse.name); // Retrieves Wikipedia articles related to the location name
 }
-export default getLocationInfo;
 
 
 /**
@@ -22,7 +22,7 @@ export default getLocationInfo;
  * @param {number} lon Longitude of the location.
  * @returns {Promise<Object>} A promise that resolves with the reverse geocoding result (address and metadata).
  */
-async function reverseGeocoding(lat, lon) {
+export async function reverseGeocoding(lat, lon) {
     const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&extratags=1`;
     try {
         const response = await fetch(apiUrl);

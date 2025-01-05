@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import L from 'leaflet'; // Import Leaflet
 import 'leaflet/dist/leaflet.css'; // Import Leaflet CSS
+import "leaflet-routing-machine";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 
 const Map = ({ lat, lon, onMarkerMove }) => {
   const [map, setMap] = useState(null);
@@ -43,6 +45,7 @@ const Map = ({ lat, lon, onMarkerMove }) => {
     if (marker) {
       marker.setLatLng([lat, lng]); // Update marker position
       map.setView([lat, lng], map.getZoom()); // Recenter map
+      routeToMarker(0,0 , lat, lng);
       // Call onMarkerMove prop to update lat/lon in HomePage
       onMarkerMove(lat, lng);
     }
@@ -62,6 +65,41 @@ const Map = ({ lat, lon, onMarkerMove }) => {
     };
   }, [map, marker, onMarkerMove]);
 
+  //Routing from current Position to Marker
+  const routeToMarker = (currentLat, currentLong, markerLat, markerLong) => {
+    currentLat = 52.852977995061174;
+    currentLong = 11.153569221496584;
+
+    // delete previous route
+    if(map){
+      map.eachLayer((layer) => {
+        //delete Markers
+        if(layer.getLatLng){
+          map.removeLayer(layer);
+        }
+
+        //delete Routing
+        if(layer.options && layer.options.className === "leaflet-routing-container"){
+          map.removeLayer(layer);
+        }
+      });
+
+
+    // Add route to map
+
+    L.Routing.control({
+      waypoints: [
+        L.latLng(currentLat, currentLong),
+        L.latLng(markerLat, markerLong)
+      ]
+    }).addTo(map);
+
+    console.log(map);
+
+  }
+  }
+
+  // Return the map container
   return <div id="map" style={{ width: '100%', height: '100vh' }}></div>;
 };
 

@@ -63,8 +63,8 @@ const LocationInfoComponent = ({ lat, lon, isPopupOpen }) => {
           {/* Basic Location Info */}
           <Block style={{ marginBottom: '16px', padding: '0px'}}>
             <List noHairlinesMd style={{ marginBottom: '15px', paddingLeft: '0px', padding: '0px' }}>
-              <ListItem title="Latitude" after={lat} style={{ fontSize: '18px' }} />
-              <ListItem title="Longitude" after={lon} style={{ fontSize: '18px' }} />
+              <ListItem title="Latitude" after={lat} style={{ fontSize: '16px' }} />
+              <ListItem title="Longitude" after={lon} style={{ fontSize: '16px' }} />
               <ListItem title="Amenity" after={locationData.address?.amenity || 'N/A'} style={{ fontSize: '16px', whiteSpace: 'normal' }} />
               <ListItem title="Road" after={locationData.address?.road || 'N/A'} style={{ fontSize: '16px' }} />
               <ListItem title="Suburb" after={locationData.address?.suburb || 'N/A'} style={{ fontSize: '16px' }} />

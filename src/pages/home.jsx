@@ -18,19 +18,26 @@ import getLocationInfo from '../services/locationInfo.js';
 import Map from '../services/map.jsx';
 
 const HomePage = () => {
-  // State for latitude and longitude
+  // State for latitude and longitude of the marker
   const [lat, setLat] = useState(47.665597);  // default latitude
-  const [lon, setLon] = useState(9.447040);  // default longitude
+  const [lng, setLng] = useState(9.447040);  // default longitude
+
+  // State for the current location
+  const [currentLat, setCurrentLat] = useState(47.665597);
+  const [currentLng, setCurrentLng] = useState(9.447040);
+
+  // State for the routeTrigger
+  const [generateRouteTrigger, setGenerateRouteTrigger] = useState(false);
 
   // Handle input change for latitude
   const handleLatChange = (e) => setLat(e.target.value);
   // Handle input change for longitude
-  const handleLonChange = (e) => setLon(e.target.value);
+  const handleLonChange = (e) => setLng(e.target.value);
 
   // Callback to update lat and lon when the marker is moved
-    const handleMarkerMove = (newLat, newLon) => {
+    const handleMarkerMove = (newLat, newLng) => {
     setLat(newLat);
-    setLon(newLon);
+    setLng(newLng);
   };
 
   return(
@@ -65,20 +72,31 @@ const HomePage = () => {
           <ListInput
             label="Longitude"
             type="number"
-            value={lon}
+            value={lng}
             onChange={handleLonChange}
             placeholder="Enter Longitude"
           />
 
-          <Button fill onClick={() => getLocationInfo(lat, lon)}>
+          <Button fill onClick={() => getLocationInfo(lat, lng)} className='margin-top'>
             Get Location Info
+          </Button>
+          <Button fill onClick={() => setGenerateRouteTrigger(true)} className='margin-top'>
+            Route to Marker
           </Button>
         </List>
 
       {/* Karte */}
       <BlockTitle>Karte</BlockTitle>
       <Block>
-        <Map lat={lat} lon={lon}  onMarkerMove={handleMarkerMove}/>
+        <Map 
+          lat={lat} 
+          lng={lng} 
+          currentLat={currentLat} 
+          currentLng={currentLng} 
+          generateRouteTrigger={generateRouteTrigger} 
+          resetGenerateRouteTrigger={()=>{setGenerateRouteTrigger(false)}} 
+          onMarkerMove={handleMarkerMove} 
+        />
       </Block>
     </Page>
   );

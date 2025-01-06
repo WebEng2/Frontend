@@ -1,11 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { List, ListItem, Block, AccordionContent, BlockTitle } from 'framework7-react';
-import { reverseGeocoding } from '../services/locationInfo.js';
+import WikipediaArticles from './wikipedia';
 
 const LocationInfoComponent = ({ lat, lon, isPopupOpen }) => {
   const [locationData, setLocationData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  async function reverseGeocoding(lat, lon) {
+    const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&extratags=1`;
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`Reverse Geocoding - Response status: ${response.status}`);
+        }
+        
+        const json = await response.json();
+        console.log("Reverse Geocoding Result:", json);
+        return json;
+    } catch (error) {
+        console.error("Reverse Geocoding Error:", error.message);
+    }
+}
 
   useEffect(() => {
     if (!isPopupOpen) return;
@@ -40,7 +56,7 @@ const LocationInfoComponent = ({ lat, lon, isPopupOpen }) => {
       {locationData ? (
         <div>
           {/* Location Name */}
-          <BlockTitle style={{  fontSize: '22px', fontWeight: 'bold', whiteSpace: 'normal', lineHeight: '1.5',}}>
+          <BlockTitle style={{fontSize: '22px', fontWeight: 'bold', whiteSpace: 'normal', lineHeight: '1.5'}}>
             {locationData.name || 'N/A'}
           </BlockTitle>
 
@@ -61,19 +77,8 @@ const LocationInfoComponent = ({ lat, lon, isPopupOpen }) => {
 
           {/* Accordion for Additional Information */}
           {locationData.extratags && (
-            <List 
-              strong 
-              outlineIos 
-              dividersIos 
-              insetMd 
-              accordionList 
-              style={{ padding: '0px', margin: '0px', marginLeft: '16px', marginRight: '16px', marginBottom: '32px' }}
-            >
-              <ListItem 
-                accordionItem 
-                title="Additional Information" s
-                style={{ fontSize: '18px', padding: '0px' }}
-              >
+            <List strong outlineIos dividersIos insetMd accordionList style={{ padding: '0px', margin: '0px', marginLeft: '16px', marginRight: '16px', marginBottom: '32px' }}>
+              <ListItem accordionItem title="Additional Information" style={{ fontSize: '18px', padding: '0px' }}>
                 <AccordionContent>
                   <Block>
                     <List noHairlinesMd>
@@ -86,6 +91,14 @@ const LocationInfoComponent = ({ lat, lon, isPopupOpen }) => {
               </ListItem>
             </List>
           )}
+
+          {/* Wikipedia Articles */}
+          <BlockTitle style={{ fontSize: '20px', fontWeight: 'bold', whiteSpace: 'normal', lineHeight: '1.5', marginTop: '16px' }}>
+            Relevant Wikipedia Articles
+          </BlockTitle>
+          <Block style={{ marginBottom: '16px', padding: '0px' }}>
+            <WikipediaArticles searchQuery={locationData.name} />
+          </Block>
         </div>
       ) : (
         <div style={{ fontSize: '18px' }}>No data available.</div>

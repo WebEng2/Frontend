@@ -87,14 +87,14 @@ const HomePage = () => {
 
       {/* Popup */}
       <Popup opened={isPopupOpen} onPopupClosed={() => setIsPopupOpen(false)} style={{padding: '0px'}}>
-          <Page style={{padding: '0px'}}>
-            <Navbar title="Location Information">
-              <NavRight>
-                <Link popupClose>Close</Link>
-              </NavRight>
-            </Navbar>
-            <LocationInfoComponent lat={lat} lon={lon} isPopupOpen={isPopupOpen} style={{padding: '0px'}}/>
-          </Page>
+        <Page style={{padding: '0px'}}>
+          <Navbar title="Location Information">
+            <NavRight>
+              <Link popupClose>Close</Link>
+            </NavRight>
+          </Navbar>
+          <LocationInfoComponent lat={lat} lon={lon} isPopupOpen={isPopupOpen} style={{padding: '0px'}}/>
+        </Page>
       </Popup>
     </Page>
   );

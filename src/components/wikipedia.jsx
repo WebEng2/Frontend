@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import ReactPaginate from 'react-paginate';
 import {
   Popup,
   Page,
@@ -8,112 +9,101 @@ import {
   List,
   ListItem,
   Icon,
-  Button,
-} from 'framework7-react'
+} from 'framework7-react';
 
 function WikipediaArticles({ searchQuery }) {
-  const [articles, setArticles] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [selectedArticle, setSelectedArticle] = useState(null)
-  const [articleContent, setArticleContent] = useState('')
-  const [page, setPage] = useState(1)
-  const [hasNextPage, setHasNextPage] = useState(false)
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [articleContent, setArticleContent] = useState('');
+  const [pageCount, setPageCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const articlesPerPage = 10;
 
   useEffect(() => {
-    if (!searchQuery) return
+    if (!searchQuery) return;
 
     async function fetchArticles() {
-      setLoading(true)
-      setError(null)
+      setLoading(true);
+      setError(null);
+
       try {
-        const apiUrl = `https://de.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=${searchQuery}&page=${page}`
-        const response = await fetch(apiUrl)
+        const offset = currentPage * articlesPerPage;
+        const apiUrl = `https://de.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=${articlesPerPage}&srsearch=${searchQuery}&sroffset=${offset}`;
+        const response = await fetch(apiUrl);
 
         if (!response.ok) {
-          throw new Error(
-            `Error fetching Wikipedia articles: ${response.status}`
-          )
+          throw new Error(`Error fetching Wikipedia articles: ${response.status}`);
         }
 
-        const data = await response.json()
-        const searchResults = data?.query?.search || []
-        const continueData = data?.continue
+        const data = await response.json();
+        const searchResults = data?.query?.search || [];
+        const totalHits = data?.query?.searchinfo?.totalhits || 0;
 
-        setArticles((prevArticles) => [
-          ...prevArticles,
-          ...searchResults.map((item) => ({
-            title: item.title,
-            pageid: item.pageid,
-            wordcount: item.wordcount,
-            timestamp: item.timestamp,
-          })),
-        ])
+        setArticles(searchResults.map((item) => ({
+          title: item.title,
+          pageid: item.pageid,
+          wordcount: item.wordcount,
+          timestamp: item.timestamp,
+        })));
 
-        setHasNextPage(!!continueData) 
+        setPageCount(Math.ceil(totalHits / articlesPerPage));
       } catch (err) {
-        setError(err.message || 'Failed to fetch articles.')
+        setError(err.message || 'Failed to fetch articles.');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    fetchArticles()
-  }, [searchQuery, page]) // Fetch articles whenever searchQuery or page changes
+    fetchArticles();
+  }, [searchQuery, currentPage]);
 
   useEffect(() => {
-    if (!selectedArticle) return
+    if (!selectedArticle) return;
 
     async function fetchArticleContent() {
-      setLoading(true)
-      setArticleContent('') // Clear previous content while fetching new
+      setLoading(true);
+      setArticleContent('');
       try {
-        const contentUrl = `https://de.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&format=json&origin=*&pageids=${selectedArticle.pageid}`
-        const response = await fetch(contentUrl)
+        const contentUrl = `https://de.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&format=json&origin=*&pageids=${selectedArticle.pageid}`;
+        const response = await fetch(contentUrl);
 
         if (!response.ok) {
-          throw new Error(
-            `Error fetching article content: ${response.status}`
-          )
+          throw new Error(`Error fetching article content: ${response.status}`);
         }
 
-        const data = await response.json()
-        const articleContent =
-          data?.query?.pages[selectedArticle.pageid]?.extract || ''
-        console.log('Article Content:', articleContent)
-
-        setArticleContent(articleContent)
+        const data = await response.json();
+        const content = data?.query?.pages[selectedArticle.pageid]?.extract || '';
+        setArticleContent(content);
       } catch (err) {
-        setError(err.message || 'Failed to fetch article content.')
+        setError(err.message || 'Failed to fetch article content.');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    fetchArticleContent()
-  }, [selectedArticle])
+    fetchArticleContent();
+  }, [selectedArticle]);
 
-  const handleLoadMore = () => {
-    if (hasNextPage) {
-      setPage(page + 1)
-    }
-  }
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
 
   return (
     <div className="wiki-articles">
-      {loading && <p>Loading articles...</p>}
+      {loading && <p style={{ margin: '16px' }}>Loading articles...</p>}
       {error && <p className="error">{error}</p>}
       {articles.length > 0 ? (
         <List>
           {articles.map((article) => (
             <ListItem
-              key={`${article.pageid}-${article.title}-${Math.random()}`}
+              key={article.pageid}
               style={{
                 paddingLeft: '16px',
                 paddingRight: '16px',
               }}
             >
-              {/* Article Title with Wikipedia Icon */}
               <Link
                 style={{
                   display: 'flex',
@@ -142,49 +132,49 @@ function WikipediaArticles({ searchQuery }) {
                   {article.title}
                 </span>
               </Link>
-
-              {/* Right Arrow Icon */}
-              <Icon
-                f7="arrowtriangle_right"
-                style={{ marginLeft: 'auto', fontSize: '18px' }}
-              />
             </ListItem>
           ))}
         </List>
       ) : (
-        !loading && (
-          <div style={{ margin: '16px' }}>No articles found</div>
-        )
+        !loading && <div style={{ margin: '16px' }}>No articles found</div>
       )}
 
-      {/* Pagination Button */}
-      {hasNextPage && (
-        <Button
-          fill
-          raised
-          style={{ margin: '32px' }}
-          onClick={handleLoadMore}
-        >
-          Load More Articles
-        </Button>
+      {pageCount > 1 && (
+        <ReactPaginate
+          previousLabel={
+            <Icon
+            f7="arrowtriangle_left"
+            style={{ marginLeft: 'auto', fontSize: '18px' }}
+          />
+          }
+          nextLabel={
+            <Icon
+              f7="arrowtriangle_right"
+              style={{ marginLeft: 'auto', fontSize: '18px' }}
+            />
+          }
+          breakLabel={"..."}
+          pageCount={pageCount}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={1}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          activeClassName={"active"}
+        />
       )}
 
-      {/* Popup for Article Details */}
       {selectedArticle && (
         <Popup
           opened={!!selectedArticle}
           onPopupClosed={() => setSelectedArticle(null)}
         >
           <Page>
-            <Navbar title={selectedArticle.title}>
+            <Navbar style={{whiteSpace: 'normal'}} title={selectedArticle.title}>
               <NavRight>
                 <Link popupClose>Close</Link>
               </NavRight>
             </Navbar>
-            <div
-              className="article-details"
-              style={{ padding: '16px' }}
-            >
+            <div className="article-details" style={{ padding: '16px' }}>
               {loading && <p>Loading article content...</p>}
               <div
                 className="article-content"
@@ -195,10 +185,12 @@ function WikipediaArticles({ searchQuery }) {
                 }}
                 dangerouslySetInnerHTML={{
                   __html: articleContent,
-                }} // Display article content
+                }}
               />
               <a
-                href={`https://de.wikipedia.org/wiki/${encodeURIComponent(selectedArticle.title)}`}
+                href={`https://de.wikipedia.org/wiki/${encodeURIComponent(
+                  selectedArticle.title
+                )}`}
                 target="_system"
                 className="external"
               >
@@ -209,7 +201,7 @@ function WikipediaArticles({ searchQuery }) {
         </Popup>
       )}
     </div>
-  )
+  );
 }
 
-export default WikipediaArticles
+export default WikipediaArticles;

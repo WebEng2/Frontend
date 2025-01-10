@@ -12,16 +12,10 @@
 .location-info-container p {
   font-size: 1.2rem;
   margin: 0 0 8px;
-  flex: 1; 
-}
-
-.accordion-content {
-  padding: 0;
 }
 
 .accordion-item {
   font-size: 1.4rem;
-  padding: 0;
 }
 
 /* Media Queries */
@@ -36,4 +30,29 @@
     font-size: 1.5rem;
     margin-bottom: 12px;
   }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 20px 0;
+}
+
+.pagination li {
+  margin: 0 4px;
+}
+
+.pagination a {
+  padding: 6px 12px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  color: #057471;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.pagination .active a {
+  background-color: #057471;
+  color: white;
 }

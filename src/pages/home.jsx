@@ -14,7 +14,7 @@ import {
   ListInput,
   Popup,
 } from 'framework7-react';
-import Map from '../services/map.jsx';
+import Map from '../components/map.jsx';
 import LocationInfoComponent from '../components/overview.jsx';
 
 const HomePage = () => {

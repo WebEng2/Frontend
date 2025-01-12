@@ -25,4 +25,15 @@ Framework7.use(Framework7React)
 const root = createRoot(document.getElementById('app'));
 root.render(React.createElement(App));
 
-import '../components/map.jsx';
+// Register service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/js/service-worker.js')
+      .then(registration => {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      })
+      .catch(error => {
+        console.log('ServiceWorker registration failed: ', error);
+      });
+  });
+}

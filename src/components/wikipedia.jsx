@@ -28,11 +28,11 @@ function WikipediaArticles({ searchQuery }) {
       setLoading(true);
       setError(null);
 
-      try {
-        const offset = currentPage * articlesPerPage;
-        const apiUrl = `https://de.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=${articlesPerPage}&srsearch=${searchQuery}&sroffset=${offset}`;
-        const response = await fetch(apiUrl);
+      const offset = currentPage * articlesPerPage;
+      const apiUrl = `https://de.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=${articlesPerPage}&srsearch=${searchQuery}&sroffset=${offset}`;
 
+      try {
+        const response = await fetch(apiUrl);
         if (!response.ok) {
           throw new Error(`Error fetching Wikipedia articles: ${response.status}`);
         }
@@ -49,8 +49,40 @@ function WikipediaArticles({ searchQuery }) {
         })));
 
         setPageCount(Math.ceil(totalHits / articlesPerPage));
+
+        // Cache the response
+        if ('caches' in window) {
+          const cache = await caches.open('pwa-cache-v1');
+          await cache.put(apiUrl, new Response(JSON.stringify(data)));
+          console.log("Wikipedia articles cached successfully");
+        }
       } catch (err) {
-        setError(err.message || 'Failed to fetch articles.');
+        console.error("Error fetching Wikipedia articles:", err.message);
+
+        // Try to get data from cache
+        if ('caches' in window) {
+          const cache = await caches.open('pwa-cache-v1');
+          const cachedResponse = await cache.match(apiUrl);
+          if (cachedResponse) {
+            const cachedData = await cachedResponse.json();
+            console.log("Serving cached Wikipedia articles:", cachedData);
+            const searchResults = cachedData?.query?.search || [];
+            const totalHits = cachedData?.query?.searchinfo?.totalhits || 0;
+
+            setArticles(searchResults.map((item) => ({
+              title: item.title,
+              pageid: item.pageid,
+              wordcount: item.wordcount,
+              timestamp: item.timestamp,
+            })));
+
+            setPageCount(Math.ceil(totalHits / articlesPerPage));
+          } else {
+            setError('No cached articles available and failed to fetch new articles.');
+          }
+        } else {
+          setError('Failed to fetch articles and caching is not supported.');
+        }
       } finally {
         setLoading(false);
       }
@@ -65,10 +97,10 @@ function WikipediaArticles({ searchQuery }) {
     async function fetchArticleContent() {
       setLoading(true);
       setArticleContent('');
-      try {
-        const contentUrl = `https://de.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&format=json&origin=*&pageids=${selectedArticle.pageid}`;
-        const response = await fetch(contentUrl);
+      const contentUrl = `https://de.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&format=json&origin=*&pageids=${selectedArticle.pageid}`;
 
+      try {
+        const response = await fetch(contentUrl);
         if (!response.ok) {
           throw new Error(`Error fetching article content: ${response.status}`);
         }
@@ -76,8 +108,31 @@ function WikipediaArticles({ searchQuery }) {
         const data = await response.json();
         const content = data?.query?.pages[selectedArticle.pageid]?.extract || '';
         setArticleContent(content);
+
+        // Cache the response
+        if ('caches' in window) {
+          const cache = await caches.open('pwa-cache-v1');
+          await cache.put(contentUrl, new Response(JSON.stringify(data)));
+          console.log("Wikipedia article content cached successfully");
+        }
       } catch (err) {
-        setError(err.message || 'Failed to fetch article content.');
+        console.error("Error fetching article content:", err.message);
+
+        // Try to get data from cache
+        if ('caches' in window) {
+          const cache = await caches.open('pwa-cache-v1');
+          const cachedResponse = await cache.match(contentUrl);
+          if (cachedResponse) {
+            const cachedData = await cachedResponse.json();
+            console.log("Serving cached Wikipedia article content:", cachedData);
+            const content = cachedData?.query?.pages[selectedArticle.pageid]?.extract || '';
+            setArticleContent(content);
+          } else {
+            setError('No cached article content available and failed to fetch new content.');
+          }
+        } else {
+          setError('Failed to fetch article content and caching is not supported.');
+        }
       } finally {
         setLoading(false);
       }

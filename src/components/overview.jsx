@@ -10,18 +10,29 @@ const LocationInfoComponent = ({ lat, lon, isPopupOpen }) => {
   async function reverseGeocoding(lat, lon) {
     const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&extratags=1`;
     try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error(`Reverse Geocoding - Response status: ${response.status}`);
-        }
-        
-        const json = await response.json();
-        console.log("Reverse Geocoding Result:", json);
-        return json;
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`Reverse Geocoding - Response status: ${response.status}`);
+      }
+
+      const json = await response.json();
+      console.log("Reverse Geocoding Result:", json);
+      return json;
     } catch (error) {
-        console.error("Reverse Geocoding Error:", error.message);
+      console.error("Reverse Geocoding Error:", error.message);
+
+      // Try to get data from cache
+      if ('caches' in window) {
+        const cache = await caches.open('pwa-cache-v1');
+        const cachedResponse = await cache.match(apiUrl);
+        if (cachedResponse) {
+          const cachedData = await cachedResponse.json();
+          console.log("Serving cached data:", cachedData);
+          return cachedData;
+        }
+      }
     }
-}
+  }
 
   useEffect(() => {
     if (!isPopupOpen) return;

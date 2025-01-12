@@ -217,20 +217,22 @@ const HomePage = () => {
           />
         </List>
         </Block>
-        <BlockTitle>Functions</BlockTitle>
         
-        <Button fill onClick={() => setShowPopup(true)} className='margin-top'>
-            Change Current Location
-        </Button>
+        <BlockTitle>Functions</BlockTitle>
+        <Block>
+          <Button fill onClick={() => setShowPopup(true)} className='margin-top'>
+              Change Current Location
+          </Button>
 
-        <Button fill onClick={() => setIsPopupOpen(true)} className='margin-top'>
-            Get Location Info
-        </Button>
+          <Button fill onClick={() => setIsPopupOpen(true)} className='margin-top'>
+              Get Location Info
+          </Button>
 
-        <Button fill onClick={() => setGenerateRouteTrigger(true)} className='margin-top'>
-          Route to Marker
-        </Button>
-        </List>
+          <Button fill onClick={() => setGenerateRouteTrigger(true)} className='margin-top'>
+            Route to Marker
+          </Button>
+        </Block>
+      </List>
 
 
       {/* Popup for setting current location */}

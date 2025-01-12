@@ -176,50 +176,12 @@ const HomePage = () => {
     <Page name="home">
       {/* Top Navbar */}
       <Navbar sliding={false}>
-        <NavLeft>
-          <Link iconIos="f7:menu" iconMd="material:menu" panelOpen="left" />
-        </NavLeft>
         <NavTitle sliding>Navigation_PWA</NavTitle>
       </Navbar>
-      {/* Toolbar */}
-      <Toolbar bottom>
-        <Link>Left Link</Link>
-        <Link>Right Link</Link>
-      </Toolbar>
+      
       {/* Page content */}
 
-      <BlockTitle>Enter Coordinates</BlockTitle>
-      <List strong inset>
-        <ListInput
-          label="Latitude"
-          type="number"
-          value={lat}
-          onChange={handleLatChange}
-          placeholder="Enter Latitude"
-        />
-        <ListInput
-          label="Longitude"
-          type="number"
-          value={lng}
-          onChange={handleLonChange}
-          placeholder="Enter Longitude"
-        />
-
-        <Button fill onClick={() => setShowPopup(true)} className='margin-top'>
-          Update Current Location
-        </Button>
-
-        <Button fill onClick={() => setIsPopupOpen(true)} className='margin-top'>
-            Get Location Info
-        </Button>
-
-        <Button fill onClick={() => setGenerateRouteTrigger(true)} className='margin-top'>
-          Route to Marker
-        </Button>
-      </List>
-
       {/* Map */}
-      <BlockTitle>Karte</BlockTitle>
       <Block>
         <Map 
           lat={lat} 
@@ -231,6 +193,42 @@ const HomePage = () => {
           onMarkerMove={handleMarkerMove} 
         />
       </Block>
+      <List strong inset>
+      <BlockTitle>Enter Coordinates for Marker</BlockTitle>
+      
+        
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <ListInput
+            label="Latitude"
+            type="number"
+            value={lat}
+            onChange={handleLatChange}
+            placeholder="Enter Latitude"
+          />
+          <ListInput
+            label="Longitude"
+            type="number"
+            value={lng}
+            onChange={handleLonChange}
+            placeholder="Enter Longitude"
+          />
+        </div>
+        <BlockTitle>Functions</BlockTitle>
+        
+        <Button fill onClick={() => setShowPopup(true)} className='margin-top'>
+            Change Current Location
+        </Button>
+
+        <Button fill onClick={() => setIsPopupOpen(true)} className='margin-top'>
+            Get Location Info
+        </Button>
+
+        <Button fill onClick={() => setGenerateRouteTrigger(true)} className='margin-top'>
+          Route to Marker
+        </Button>
+      </List>
+
+
 
       {/* Popup for setting current location */}
       <Popup opened={showPopup} onPopupClosed={() => setShowPopup(false)}>

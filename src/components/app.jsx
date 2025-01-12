@@ -44,15 +44,7 @@ const MyApp = () => {
   return (
     <App { ...f7params }>
 
-        {/* Left panel with cover effect*/}
-        <Panel left cover dark>
-          <View>
-            <Page>
-              <Navbar title="Navigation Panel"/>
-              <Block>panel content goes here</Block>
-            </Page>
-          </View>
-        </Panel>
+        
 
         {/* Your main view, should have "view-main" class */}
         <View main className="safe-areas" url="/" />

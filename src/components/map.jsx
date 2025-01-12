@@ -130,7 +130,7 @@ const Map = ({ lat, lng, onMarkerMove, generateRouteTrigger,resetGenerateRouteTr
 }, [generateRouteTrigger, map, marker, currentPosMarker, route, resetGenerateRouteTrigger]);
 
   // Return the map container
-  return <div id="map" style={{ width: '100%', height: '100vh' }}></div>;
+  return <div id="map" style={{ width: '100%', height: '400px' }}></div>;
 };
 
 export default Map;

@@ -113,15 +113,12 @@ const Map = ({ lat, lng, onMarkerMove, generateRouteTrigger,resetGenerateRouteTr
         ],
         
         lineOptions: {
-          styles: [
-            {color: 'red', opacity: 0.7, weight: 5},
-
-          ]
+          
         },
         addWaypoints: true,
         draggableWaypoints: false,
         fitSelectedRoutes: false,
-        showAlternatives: false
+        showAlternatives: true
       });
 
       //add new route to map

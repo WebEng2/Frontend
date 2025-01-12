@@ -151,7 +151,6 @@ function WikipediaArticles({ searchQuery }) {
   return (
     <div className="wiki-articles">
       {loading && <p style={{ margin: '16px' }}>Loading articles...</p>}
-      {articles.length > 0 && setError(null)} {/* Clear error before displaying articles */}
       {error && <p className="error">{error}</p>}
       {articles.length > 0 ? (
         <List>
@@ -226,8 +225,8 @@ function WikipediaArticles({ searchQuery }) {
         <Popup
           opened={!!selectedArticle}
           onPopupClosed={() => {
+            setError(null); // Clear error before closing the popup
             setSelectedArticle(null);
-            setError(null); // Clear error when popup is closed
           }}
         >
           <Page>

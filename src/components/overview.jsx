@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { List, ListItem, Block, AccordionContent, BlockTitle } from 'framework7-react';
 import WikipediaArticles from './wikipedia';
 
-const LocationInfoComponent = ({ lat, lon, isPopupOpen }) => {
+const LocationInfoComponent = ({ lat, lng, isPopupOpen }) => {
   const [locationData, setLocationData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  async function reverseGeocoding(lat, lon) {
-    const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&extratags=1`;
+  async function reverseGeocoding(lat, lng) {
+    const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&extratags=1`;
     try {
       const response = await fetch(apiUrl);
       if (!response.ok) {
@@ -42,7 +42,7 @@ const LocationInfoComponent = ({ lat, lon, isPopupOpen }) => {
       setError(null);
 
       try {
-        const result = await reverseGeocoding(lat, lon);
+        const result = await reverseGeocoding(lat, lng);
 
         if (result && result.address) {
           setLocationData(result);
@@ -57,7 +57,7 @@ const LocationInfoComponent = ({ lat, lon, isPopupOpen }) => {
     };
 
     fetchLocationData();
-  }, [lat, lon, isPopupOpen]);
+  }, [lat, lng, isPopupOpen]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -75,7 +75,7 @@ const LocationInfoComponent = ({ lat, lon, isPopupOpen }) => {
           <Block style={{ marginBottom: '16px', padding: '0px'}}>
             <List noHairlinesMd style={{ marginBottom: '15px', paddingLeft: '0px', padding: '0px' }}>
               <ListItem title="Latitude" after={lat} style={{ fontSize: '16px' }} />
-              <ListItem title="Longitude" after={lon} style={{ fontSize: '16px' }} />
+              <ListItem title="Longitude" after={lng} style={{ fontSize: '16px' }} />
               <ListItem title="Amenity" after={locationData.address?.amenity || 'N/A'} style={{ fontSize: '16px', whiteSpace: 'normal' }} />
               <ListItem title="Road" after={locationData.address?.road || 'N/A'} style={{ fontSize: '16px' }} />
               <ListItem title="Suburb" after={locationData.address?.suburb || 'N/A'} style={{ fontSize: '16px' }} />

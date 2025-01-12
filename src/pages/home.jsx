@@ -210,6 +210,10 @@ const HomePage = () => {
           placeholder="Enter Longitude"
         />
 
+        <Button fill onClick={() => setShowPopup(true)} className='margin-top'>
+          Update Current Location
+        </Button>
+
         <Button fill onClick={() => getLocationInfo(lat, lng)} className='margin-top'>
           Get Location Info
         </Button>

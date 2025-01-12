@@ -77,6 +77,7 @@ function WikipediaArticles({ searchQuery }) {
             })));
 
             setPageCount(Math.ceil(totalHits / articlesPerPage));
+            setError(null); // Clear error if cached data is found
           } else {
             setError('No cached articles available and failed to fetch new articles.');
           }
@@ -97,6 +98,7 @@ function WikipediaArticles({ searchQuery }) {
     async function fetchArticleContent() {
       setLoading(true);
       setArticleContent('');
+      setError(null); // Clear error before fetching new content
       const contentUrl = `https://de.wikipedia.org/w/api.php?action=query&prop=extracts&exintro&format=json&origin=*&pageids=${selectedArticle.pageid}`;
 
       try {
@@ -127,6 +129,7 @@ function WikipediaArticles({ searchQuery }) {
             console.log("Serving cached Wikipedia article content:", cachedData);
             const content = cachedData?.query?.pages[selectedArticle.pageid]?.extract || '';
             setArticleContent(content);
+            setError(null); // Clear error if cached data is found
           } else {
             setError('No cached article content available and failed to fetch new content.');
           }
@@ -148,6 +151,7 @@ function WikipediaArticles({ searchQuery }) {
   return (
     <div className="wiki-articles">
       {loading && <p style={{ margin: '16px' }}>Loading articles...</p>}
+      {articles.length > 0 && setError(null)} {/* Clear error before displaying articles */}
       {error && <p className="error">{error}</p>}
       {articles.length > 0 ? (
         <List>
@@ -221,7 +225,10 @@ function WikipediaArticles({ searchQuery }) {
       {selectedArticle && (
         <Popup
           opened={!!selectedArticle}
-          onPopupClosed={() => setSelectedArticle(null)}
+          onPopupClosed={() => {
+            setSelectedArticle(null);
+            setError(null); // Clear error when popup is closed
+          }}
         >
           <Page>
             <Navbar style={{whiteSpace: 'normal'}} title={selectedArticle.title}>

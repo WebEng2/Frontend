@@ -47,28 +47,6 @@ const HomePage = () => {
     setLng(newLng);
   };
 
-  // Function to fetch and cache data
-  const fetchAndCacheData = async () => {
-    const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&extratags=1`;
-    try {
-      const response = await fetch(apiUrl);
-      if (!response.ok) {
-        throw new Error(`Reverse Geocoding - Response status: ${response.status}?`);
-      }
-      const data = await response.json();
-      console.log("Fetched data:", data);
-
-      // Cache the response
-      if ('caches' in window) {
-        const cache = await caches.open('pwa-cache-v1');
-        await cache.put(apiUrl, new Response(JSON.stringify(data)));
-        console.log("Data cached successfully");
-      }
-    } catch (error) {
-      console.error("Error fetching and caching data:", error.message);
-    }
-  };
-
   // Function to update current location
   const updateCurrentLocation = () => {
     if (navigator.geolocation) {
@@ -231,7 +209,7 @@ const HomePage = () => {
           Update Current Location
         </Button>
 
-        <Button fill onClick={() => { setIsPopupOpen(true); fetchAndCacheData(); }} className='margin-top'>
+        <Button fill onClick={() => setIsPopupOpen(true)} className='margin-top'>
             Get Location Info
         </Button>
 

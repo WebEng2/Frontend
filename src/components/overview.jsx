@@ -3,9 +3,9 @@ import { List, ListItem, Block, AccordionContent, BlockTitle } from 'framework7-
 import WikipediaArticles from './wikipedia';
 
 const LocationInfoComponent = ({ lat, lng, isPopupOpen }) => {
-  const [locationData, setLocationData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [locationData, setLocationData] = useState(null);
 
   async function reverseGeocoding(lat, lng) {
     const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&extratags=1`;

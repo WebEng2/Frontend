@@ -231,6 +231,10 @@ function WikipediaArticles({ searchQuery }) {
             </Navbar>
             <div className="article-details" style={{ padding: '16px' }}>
               {loading && <p>Loading article content...</p>}
+              {error && <p className="error">{error}</p>}
+              {!loading && !error && !articleContent && (
+                <p>No article content available.</p>
+              )}
               <div
                 className="article-content"
                 style={{

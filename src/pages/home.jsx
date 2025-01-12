@@ -88,6 +88,7 @@ const HomePage = () => {
       let intervalId = null;
 
       if (permissionTest === 200) {
+        updateCurrentLocation(); // Update current location immediately
         intervalId = setInterval(updateCurrentLocation, 10000); // Update every 10 seconds
       } else if (permissionTest === 403) {
         clearInterval(intervalId);
@@ -193,12 +194,11 @@ const HomePage = () => {
           onMarkerMove={handleMarkerMove} 
         />
       </Block>
-      <List strong inset>
+
       <BlockTitle>Enter Coordinates for Marker</BlockTitle>
-      
-        
-      <div className="grid grid-cols-2 grid-gap" >
-      <List  dividersIos  strong outline>
+      <List  >
+      <Block className="grid grid-cols-2 grid-gap">
+      <List  dividersIos style={{padding: '0px', margin: '0px'}}>
           <ListInput
             label="Latitude"
             type="number"
@@ -207,7 +207,7 @@ const HomePage = () => {
             placeholder="Enter Latitude"
           />
         </List>
-        <List  dividersIos  strong outline>
+        <List  dividersIos style={{padding: '0px', margin: '0px'}}>
           <ListInput
             label="Longitude"
             type="number"
@@ -216,7 +216,7 @@ const HomePage = () => {
             placeholder="Enter Longitude"
           />
         </List>
-        </div>
+        </Block>
         <BlockTitle>Functions</BlockTitle>
         
         <Button fill onClick={() => setShowPopup(true)} className='margin-top'>
@@ -230,8 +230,7 @@ const HomePage = () => {
         <Button fill onClick={() => setGenerateRouteTrigger(true)} className='margin-top'>
           Route to Marker
         </Button>
-      </List>
-
+        </List>
 
 
       {/* Popup for setting current location */}

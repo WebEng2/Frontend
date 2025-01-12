@@ -197,7 +197,8 @@ const HomePage = () => {
       <BlockTitle>Enter Coordinates for Marker</BlockTitle>
       
         
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className="grid grid-cols-2 grid-gap" >
+      <List  dividersIos  strong outline>
           <ListInput
             label="Latitude"
             type="number"
@@ -205,6 +206,8 @@ const HomePage = () => {
             onChange={handleLatChange}
             placeholder="Enter Latitude"
           />
+        </List>
+        <List  dividersIos  strong outline>
           <ListInput
             label="Longitude"
             type="number"
@@ -212,6 +215,7 @@ const HomePage = () => {
             onChange={handleLonChange}
             placeholder="Enter Longitude"
           />
+        </List>
         </div>
         <BlockTitle>Functions</BlockTitle>
         

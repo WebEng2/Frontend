@@ -4,7 +4,6 @@ import {
   Navbar,
   NavLeft,
   NavTitle,
-  NavTitleLarge,
   NavRight,
   Link,
   Toolbar,
@@ -17,10 +16,9 @@ import {
   Popup,
   View
 } from 'framework7-react';
-import getLocationInfo from '../services/locationInfo.js';
-import Map from '../services/map.jsx';
-import CurrentLocationMap from '../services/currentLocationMap.jsx';
-
+import Map from '../components/map.jsx';
+import CurrentLocationMap from '../components/currentLocationMap.jsx';
+import LocationInfoComponent from '../components/overview.jsx';
 
 const HomePage = () => {
   // State for latitude and longitude of the marker
@@ -36,11 +34,12 @@ const HomePage = () => {
 
   // State for showing the popup
   const [showPopup, setShowPopup] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);  // Popup open state
 
   // Handle input change for latitude
-  const handleLatChange = (e) => setLat(e.target.value);
+  const handleLatChange = (e) => setLat(parseFloat(e.target.value));
   // Handle input change for longitude
-  const handleLonChange = (e) => setLng(e.target.value);
+  const handleLonChange = (e) => setLng(parseFloat(e.target.value));
 
   // Callback to update lat and lon when the marker is moved
   const handleMarkerMove = (newLat, newLng) => {
@@ -89,6 +88,7 @@ const HomePage = () => {
       let intervalId = null;
 
       if (permissionTest === 200) {
+        updateCurrentLocation(); // Update current location immediately
         intervalId = setInterval(updateCurrentLocation, 10000); // Update every 10 seconds
       } else if (permissionTest === 403) {
         clearInterval(intervalId);
@@ -176,54 +176,13 @@ const HomePage = () => {
   return (
     <Page name="home">
       {/* Top Navbar */}
-      <Navbar large sliding={false}>
-        <NavLeft>
-          <Link iconIos="f7:menu" iconMd="material:menu" panelOpen="left" />
-        </NavLeft>
+      <Navbar sliding={false}>
         <NavTitle sliding>Navigation_PWA</NavTitle>
-        <NavRight>
-          <Link iconIos="f7:menu" iconMd="material:menu" panelOpen="right" />
-        </NavRight>
-        <NavTitleLarge>Navigation_PWA</NavTitleLarge>
       </Navbar>
-      {/* Toolbar */}
-      <Toolbar bottom>
-        <Link>Left Link</Link>
-        <Link>Right Link</Link>
-      </Toolbar>
+      
       {/* Page content */}
 
-      <BlockTitle>Enter Coordinates</BlockTitle>
-      <List strong inset>
-        <ListInput
-          label="Latitude"
-          type="number"
-          value={lat}
-          onChange={handleLatChange}
-          placeholder="Enter Latitude"
-        />
-        <ListInput
-          label="Longitude"
-          type="number"
-          value={lng}
-          onChange={handleLonChange}
-          placeholder="Enter Longitude"
-        />
-
-        <Button fill onClick={() => setShowPopup(true)} className='margin-top'>
-          Update Current Location
-        </Button>
-
-        <Button fill onClick={() => getLocationInfo(lat, lng)} className='margin-top'>
-          Get Location Info
-        </Button>
-        <Button fill onClick={() => setGenerateRouteTrigger(true)} className='margin-top'>
-          Route to Marker
-        </Button>
-      </List>
-
-      {/* Karte */}
-      <BlockTitle>Karte</BlockTitle>
+      {/* Map */}
       <Block>
         <Map 
           lat={lat} 
@@ -235,6 +194,46 @@ const HomePage = () => {
           onMarkerMove={handleMarkerMove} 
         />
       </Block>
+
+      <BlockTitle>Enter Coordinates for Marker</BlockTitle>
+      <List  >
+      <Block className="grid grid-cols-2 grid-gap">
+      <List  dividersIos style={{padding: '0px', margin: '0px'}}>
+          <ListInput
+            label="Latitude"
+            type="number"
+            value={lat}
+            onChange={handleLatChange}
+            placeholder="Enter Latitude"
+          />
+        </List>
+        <List  dividersIos style={{padding: '0px', margin: '0px'}}>
+          <ListInput
+            label="Longitude"
+            type="number"
+            value={lng}
+            onChange={handleLonChange}
+            placeholder="Enter Longitude"
+          />
+        </List>
+        </Block>
+        
+        <BlockTitle>Functions</BlockTitle>
+        <Block>
+          <Button fill onClick={() => setShowPopup(true)} className='margin-top'>
+              Change Current Location
+          </Button>
+
+          <Button fill onClick={() => setIsPopupOpen(true)} className='margin-top'>
+              Get Location Info
+          </Button>
+
+          <Button fill onClick={() => setGenerateRouteTrigger(true)} className='margin-top'>
+            Route to Marker
+          </Button>
+        </Block>
+      </List>
+
 
       {/* Popup for setting current location */}
       <Popup opened={showPopup} onPopupClosed={() => setShowPopup(false)}>
@@ -262,7 +261,20 @@ const HomePage = () => {
           </Page>
         </View>
       </Popup>
+
+      {/* Popup for Location Information */}
+      <Popup opened={isPopupOpen} onPopupClosed={() => setIsPopupOpen(false)} style={{padding: '0px'}}>
+        <Page style={{padding: '0px'}}>
+          <Navbar title="Location Information">
+            <NavRight>
+              <Link popupClose>Close</Link>
+            </NavRight>
+          </Navbar>
+          <LocationInfoComponent lat={lat} lng={lng} isPopupOpen={isPopupOpen} style={{padding: '0px'}}/>
+        </Page>
+      </Popup>
     </Page>
   );
 };
+
 export default HomePage;

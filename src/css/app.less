@@ -1,1 +1,58 @@
-/* Your app custom styles here */
+/* Custom Styles */
+.page-content {
+  padding: 8px;
+  padding-top: 64px;
+}
+
+.location-info-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.location-info-container p {
+  font-size: 1.2rem;
+  margin: 0 0 8px;
+}
+
+.accordion-item {
+  font-size: 1.4rem;
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .location-info-container p {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .location-info-container p {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 20px 0;
+}
+
+.pagination li {
+  margin: 0 4px;
+}
+
+.pagination a {
+  padding: 6px 12px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  color: #057471;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.pagination .active a {
+  background-color: #057471;
+  color: white;
+}
